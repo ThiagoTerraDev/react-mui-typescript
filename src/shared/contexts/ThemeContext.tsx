@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
-import { Box, ThemeProvider } from '@mui/material';
-import { LightTheme, DarkTheme } from '../../shared/themes';
+import { Box, ThemeProvider } from "@mui/material";
+import { LightTheme, DarkTheme } from "../../shared/themes";
 
 
 interface IThemeContextData {
@@ -12,7 +12,7 @@ const ThemeContext = createContext({} as IThemeContextData);
 
 export const useAppThemeContext = () => {
   return useContext(ThemeContext);
-}
+};
 
 interface IAppThemeProviderProps {
   children: React.ReactNode;
@@ -39,5 +39,5 @@ export const AppThemeProvider: React.FC<IAppThemeProviderProps> = ({ children })
         </Box>
       </ThemeProvider>
     </ThemeContext.Provider>
-  )
-}
+  );
+};
