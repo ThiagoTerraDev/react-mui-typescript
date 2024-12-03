@@ -1,4 +1,4 @@
-import { Toolbar } from "../../shared/components";
+import { SearchToolbar } from "../../shared/components";
 import { BasePageLayout } from "../../shared/layouts";
 
 
@@ -7,7 +7,7 @@ export const Dashboard = () => {
     <BasePageLayout 
       title="Home" 
       toolbar={(
-        <Toolbar 
+        <SearchToolbar 
           showTextField
         />
       )}
