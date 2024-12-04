@@ -1,4 +1,14 @@
-import { Box, Paper, Button, useTheme, Icon, Divider, Skeleton } from "@mui/material";
+import { 
+  Box, 
+  Paper, 
+  Button, 
+  useTheme, 
+  Icon, 
+  Divider, 
+  Skeleton, 
+  Typography, 
+  useMediaQuery 
+} from "@mui/material";
 
 
 interface IDetailsToolbarProps {
@@ -45,6 +55,8 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
 }) => {
 
   const theme = useTheme();
+  const smDown = useMediaQuery(theme.breakpoints.down("sm"));
+  const mdDown = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <Box 
@@ -65,7 +77,14 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
           startIcon={<Icon>save</Icon>}
           onClick={onClickSaveButton}
         >
-          Save
+          <Typography 
+            variant="button"
+            whiteSpace="nowrap" 
+            textOverflow="ellipsis"
+            overflow="hidden"
+          >
+            Save
+          </Typography>
         </Button>
       )}
 
@@ -73,7 +92,7 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
         <Skeleton width={100} height={60}/>
       )}
 
-      {(showSaveAndBackButton && !saveAndBackButtonBusy) && (
+      {(showSaveAndBackButton && !saveAndBackButtonBusy && !mdDown) && (
         <Button 
           variant="outlined" 
           color="primary" 
@@ -81,11 +100,18 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
           startIcon={<Icon>save</Icon>}
           onClick={onClickSaveAndBackButton}
         >
-          Save and back
+          <Typography 
+            variant="button"
+            whiteSpace="nowrap" 
+            textOverflow="ellipsis"
+            overflow="hidden"
+          >
+            Save and back
+          </Typography>
         </Button>
       )}
 
-      {saveAndBackButtonBusy && (
+      {(saveAndBackButtonBusy && !mdDown) && (
         <Skeleton width={170} height={60}/>
       )}
 
@@ -97,7 +123,14 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
           startIcon={<Icon>delete</Icon>}
           onClick={onClickDeleteButton}
         >
-          Delete
+          <Typography 
+            variant="button"
+            whiteSpace="nowrap" 
+            textOverflow="ellipsis"
+            overflow="hidden"
+          >
+            Delete
+          </Typography>
         </Button>
       )}
 
@@ -105,7 +138,7 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
         <Skeleton width={115} height={60}/>
       )}
 
-      {(showNewButton && !newButtonBusy) && (
+      {(showNewButton && !newButtonBusy && !smDown) && (
         <Button 
           variant="outlined" 
           color="primary" 
@@ -113,15 +146,28 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
           startIcon={<Icon>add</Icon>}
           onClick={onClickNewButton}
         >
-          {newButtonText}
+          <Typography 
+            variant="button"
+            whiteSpace="nowrap" 
+            textOverflow="ellipsis"
+            overflow="hidden"
+          >
+            {newButtonText}
+          </Typography>
         </Button>
       )}
 
-      {newButtonBusy && (
+      {(newButtonBusy && !smDown) && (
         <Skeleton width={100} height={60}/>
       )}
 
-      <Divider variant="middle" orientation="vertical" />
+      {(showBackButton && (
+        showSaveButton || 
+        showSaveAndBackButton || 
+        showDeleteButton || 
+        showNewButton )) && (
+        <Divider variant="middle" orientation="vertical" />
+      )}
 
       {(showBackButton && !backButtonBusy) && (
         <Button 
@@ -131,7 +177,14 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
           startIcon={<Icon>arrow_back</Icon>}
           onClick={onClickBackButton}
         >
-          Back
+          <Typography 
+            variant="button"
+            whiteSpace="nowrap" 
+            textOverflow="ellipsis"
+            overflow="hidden"
+          >
+            Back
+          </Typography>
         </Button>
       )}
 
