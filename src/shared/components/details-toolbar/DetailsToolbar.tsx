@@ -1,4 +1,4 @@
-import { Box, Paper, Button, useTheme, Icon, Divider } from "@mui/material";
+import { Box, Paper, Button, useTheme, Icon, Divider, Skeleton } from "@mui/material";
 
 
 interface IDetailsToolbarProps {
@@ -8,6 +8,13 @@ interface IDetailsToolbarProps {
   showDeleteButton?: boolean;
   showBackButton?: boolean;
   showSaveAndBackButton?: boolean;
+
+  newButtonBusy?: boolean;
+  saveButtonBusy?: boolean;
+  deleteButtonBusy?: boolean;
+  backButtonBusy?: boolean;
+  saveAndBackButtonBusy?: boolean;
+
   onClickNewButton?: () => void;
   onClickSaveButton?: () => void;
   onClickDeleteButton?: () => void;
@@ -17,11 +24,19 @@ interface IDetailsToolbarProps {
 
 export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({ 
   newButtonText = "New",
+
   showNewButton = true,
   showSaveButton = true,
   showDeleteButton = true,
   showBackButton = true,
   showSaveAndBackButton = false,
+
+  newButtonBusy = false,
+  saveButtonBusy = false,
+  deleteButtonBusy = false,
+  backButtonBusy = false,
+  saveAndBackButtonBusy = false,
+
   onClickNewButton,
   onClickSaveButton,
   onClickDeleteButton,
@@ -42,7 +57,7 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
       alignItems="center"
       gap={1}
     >
-      {showSaveButton && (
+      {(showSaveButton && !saveButtonBusy) && (
         <Button 
           variant="contained" 
           color="primary" 
@@ -54,7 +69,11 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
         </Button>
       )}
 
-      {showSaveAndBackButton && (
+      {saveButtonBusy && (
+        <Skeleton width={100} height={60}/>
+      )}
+
+      {(showSaveAndBackButton && !saveAndBackButtonBusy) && (
         <Button 
           variant="outlined" 
           color="primary" 
@@ -66,7 +85,11 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
         </Button>
       )}
 
-      {showDeleteButton && (
+      {saveAndBackButtonBusy && (
+        <Skeleton width={170} height={60}/>
+      )}
+
+      {(showDeleteButton && !deleteButtonBusy) && (
         <Button 
           variant="outlined" 
           color="primary" 
@@ -78,7 +101,11 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
         </Button>
       )}
 
-      {showNewButton && (
+      {deleteButtonBusy && (
+        <Skeleton width={115} height={60}/>
+      )}
+
+      {(showNewButton && !newButtonBusy) && (
         <Button 
           variant="outlined" 
           color="primary" 
@@ -90,9 +117,13 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
         </Button>
       )}
 
+      {newButtonBusy && (
+        <Skeleton width={100} height={60}/>
+      )}
+
       <Divider variant="middle" orientation="vertical" />
 
-      {showBackButton &&(
+      {(showBackButton && !backButtonBusy) && (
         <Button 
           variant="outlined" 
           color="primary" 
@@ -102,6 +133,10 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
         >
           Back
         </Button>
+      )}
+
+      {backButtonBusy && (
+        <Skeleton width={100} height={60}/>
       )}
     </Box>
   );
