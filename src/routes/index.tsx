@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useDrawerContext } from "../shared/contexts";
 import { useEffect } from "react";
-import { Dashboard } from "../pages";
+import { CitiesList, Dashboard } from "../pages";
 
 export const AppRoutes = () => {
   // const { toggleTheme } = useAppThemeContext();
@@ -13,6 +13,11 @@ export const AppRoutes = () => {
         icon: "home",
         path: "/home",
         label: "Home"
+      },
+      {
+        icon: "location_city",
+        path: "/cities",
+        label: "Cities"
       }
     ]);
   }, []);
@@ -20,6 +25,9 @@ export const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/home" element={<Dashboard />} />
+
+      <Route path="/cities" element={<CitiesList />} />
+      {/* <Route path="/cities/details/:id" element={<Dashboard />} /> */}
 
       <Route path="*" element={<Navigate to="/home" />} />
     </Routes>

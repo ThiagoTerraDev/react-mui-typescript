@@ -3,7 +3,7 @@ import { useDrawerContext } from "../contexts";
 
 
 interface IBasePageLayoutProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   title: string;
   toolbar?: React.ReactNode;
 }
