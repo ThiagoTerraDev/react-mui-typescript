@@ -3,13 +3,13 @@ import { errorInterceptor, responseInterceptor } from "./interceptors";
 import { Environment } from "../../../environment";
 
 
-const api = axios.create({
+const Api = axios.create({
   baseURL: Environment.BASE_URL,
 });
 
-api.interceptors.response.use(
+Api.interceptors.response.use(
   (response) => responseInterceptor(response),
   (error) => errorInterceptor(error)  
 );
 
-export { api };
+export { Api };
