@@ -1,7 +1,10 @@
 {
-  "members": [{
-    "id": 1,
-    "fullName": "Jax Teller",
-    "email": "jaxteller@hotmail.com"
-  }]
+  "members": [
+    {
+      "id": 1,
+      "email": "jaxteller@hotmail.com",
+      "fullName": "Jax Teller",
+      "cityId": 13
+    }
+  ]
 }
