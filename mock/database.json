@@ -5,6 +5,30 @@
       "email": "jaxteller@hotmail.com",
       "fullName": "Jax Teller",
       "cityId": 13
+    },
+    {
+      "id": 2,
+      "email": "claymorrow@gmail.com",
+      "fullName": "Clay Morrow",
+      "cityId": 13
+    },
+    {
+      "id": 3,
+      "email": "opiewinston@bol.com",
+      "fullName": "Opie Winston",
+      "cityId": 13
+    },
+    {
+      "id": 4,
+      "email": "gemmateller@gmail.com",
+      "fullName": "Gemma Teller",
+      "cityId": 13
+    },
+    {
+      "id": 5,
+      "email": "abelteller@gmail.com",
+      "fullName": "Abel Teller",
+      "cityId": 13
     }
   ]
 }
