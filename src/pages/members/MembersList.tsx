@@ -3,6 +3,7 @@ import { SearchToolbar } from "../../shared/components";
 import { BasePageLayout } from "../../shared/layouts";
 import { useEffect, useMemo } from "react";
 import { MembersService } from "../../shared/services/api/members/MembersService";
+import { useDebounce } from "../../shared/hooks";
 
 
 export const MembersList: React.FC = () => {
@@ -12,16 +13,20 @@ export const MembersList: React.FC = () => {
     return searchParams.get("search") || "";
   }, [searchParams]);
 
+  const debouncedSearch = useDebounce(search, 1500);
+
   useEffect(() => {
-    MembersService.getAll(1, search)
-      .then((result) => {
-        if (result instanceof Error) {
-          alert(result.message);
-        } else {
-          console.log(result);
-        }
-      });
-  }, [search]);
+    if (debouncedSearch) {
+      MembersService.getAll(1, search)
+        .then((result) => {
+          if (result instanceof Error) {
+            alert(result.message);
+          } else {
+            console.log(result);
+          }
+        });
+    }
+  }, [debouncedSearch]);
 
   return (
     <BasePageLayout 
