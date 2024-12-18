@@ -4,7 +4,18 @@ import { BasePageLayout } from "../../shared/layouts";
 import { useEffect, useMemo, useState } from "react";
 import { IMembersList, MembersService } from "../../shared/services/api/members/MembersService";
 import { useDebounce } from "../../shared/hooks";
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { 
+  LinearProgress, 
+  Paper, 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableContainer, 
+  TableFooter, 
+  TableHead, 
+  TableRow 
+} from "@mui/material";
+import { Environment } from "../../shared/environment";
 
 
 export const MembersList: React.FC = () => {
@@ -80,6 +91,20 @@ export const MembersList: React.FC = () => {
               </TableRow>
             ))}
           </TableBody>
+
+          {totalCount === 0 && !isLoading && (
+            <caption>{Environment.EMPTY_LIST_MESSAGE}</caption>
+          )}
+
+          <TableFooter>
+            {isLoading && (
+              <TableRow>
+                <TableCell colSpan={3}>
+                  <LinearProgress variant="indeterminate" />
+                </TableCell>
+              </TableRow>
+            )}
+          </TableFooter>
         </Table>
       </TableContainer>
     </BasePageLayout>

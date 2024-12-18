@@ -19,5 +19,5 @@ export const Environment = {
   /**
    * Default message for empty list
    */
-  EMPTY_LIST_MESSAGE: "No data found",
+  EMPTY_LIST_MESSAGE: "No records found.",
 };
