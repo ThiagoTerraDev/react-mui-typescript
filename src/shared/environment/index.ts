@@ -9,7 +9,7 @@ export const Environment = {
   /**
    * Default number of rows per page
    */
-  MAXIMUM_ROWS: 10,
+  MAXIMUM_ROWS: 7,
 
   /**
    * Default placeholder for search input
