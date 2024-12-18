@@ -6,6 +6,7 @@ import { IMembersList, MembersService } from "../../shared/services/api/members/
 import { useDebounce } from "../../shared/hooks";
 import { 
   LinearProgress, 
+  Pagination, 
   Paper, 
   Table, 
   TableBody, 
@@ -22,8 +23,8 @@ export const MembersList: React.FC = () => {
   const [rows, setRows] = useState<IMembersList[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-
   const [searchParams, setSearchParams] = useSearchParams();
+  const [pendingPageReset, setPendingPageReset] = useState(false);
 
   const search = useMemo(() => {
     return searchParams.get("search") || "";
@@ -31,20 +32,29 @@ export const MembersList: React.FC = () => {
 
   const debouncedSearch = useDebounce(search, 1000);
 
+  const page = useMemo(() => {
+    return Number(searchParams.get("page") || "1");
+  }, [searchParams]);
+
   useEffect(() => {
     const fetchMembers = async () => {
       setIsLoading(true);
-
+  
       try {
-        const result = await MembersService.getAll(1, debouncedSearch || "");
-
+        const result = await MembersService.getAll(page, debouncedSearch || "");
+  
         setIsLoading(false);
-
+  
         if (result instanceof Error) {
           alert(result.message);
         } else {
           setRows(result.data);
           setTotalCount(result.totalCount);
+  
+          if (pendingPageReset) {
+            setPendingPageReset(false);
+            setSearchParams({ search: debouncedSearch, page: "1" }, { replace: true });
+          }
         }
       } catch (error) {
         setIsLoading(false);
@@ -54,7 +64,7 @@ export const MembersList: React.FC = () => {
     };
 
     fetchMembers();
-  }, [debouncedSearch]);
+  }, [debouncedSearch, page]);
 
   return (
     <BasePageLayout 
@@ -63,7 +73,10 @@ export const MembersList: React.FC = () => {
         <SearchToolbar 
           showTextField
           searchText={search}
-          onChangeSearchText={newSearchText => setSearchParams({ search: newSearchText }, { replace: true })}
+          onChangeSearchText={(newSearchText) => {
+            setPendingPageReset(true);
+            setSearchParams({ search: newSearchText, page: page.toString() }, { replace: true });
+          }}
         />
       }>
       
@@ -101,6 +114,18 @@ export const MembersList: React.FC = () => {
               <TableRow>
                 <TableCell colSpan={3}>
                   <LinearProgress variant="indeterminate" />
+                </TableCell>
+              </TableRow>
+            )}
+            {totalCount > 0 && totalCount > Environment.MAXIMUM_ROWS && (
+              <TableRow>
+                <TableCell colSpan={3}>
+                  <Pagination
+                    count={Math.ceil(totalCount / Environment.MAXIMUM_ROWS)}
+                    page={page}
+                    onChange={(_, newPage) => 
+                      setSearchParams({ search, page: newPage.toString() }, { replace: true })}
+                  />
                 </TableCell>
               </TableRow>
             )}
