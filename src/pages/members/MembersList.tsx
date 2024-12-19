@@ -1,10 +1,13 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { SearchToolbar } from "../../shared/components";
 import { BasePageLayout } from "../../shared/layouts";
 import { useEffect, useMemo, useState } from "react";
 import { IMembersList, MembersService } from "../../shared/services/api/members/MembersService";
 import { useDebounce } from "../../shared/hooks";
 import { 
+  Box,
+  Icon,
+  IconButton,
   LinearProgress, 
   Pagination, 
   Paper, 
@@ -20,6 +23,7 @@ import { Environment } from "../../shared/environment";
 
 
 export const MembersList: React.FC = () => {
+  const navigate = useNavigate();
   const [rows, setRows] = useState<IMembersList[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -66,6 +70,20 @@ export const MembersList: React.FC = () => {
     fetchMembers();
   }, [debouncedSearch, page]);
 
+  const handleDelete = (id: number) => {
+    if (window.confirm("Are you sure you want to delete this member?")) {
+      MembersService.deleteById(id)
+        .then(result => {
+          if (result instanceof Error) {
+            alert(result.message);
+          } else {
+            alert("Member deleted successfully");
+            setRows(rows.filter(row => row.id !== id));
+          }
+        });
+    }
+  };
+
   return (
     <BasePageLayout 
       title="List of Members" 
@@ -98,7 +116,16 @@ export const MembersList: React.FC = () => {
           <TableBody>
             {rows.map(row => (
               <TableRow key={row.id}>
-                <TableCell>Actions</TableCell>
+                <TableCell>
+                  <Box display="flex" gap={2}>
+                    <IconButton size="small" onClick={() => handleDelete(row.id)}>
+                      <Icon>delete</Icon>
+                    </IconButton>
+                    <IconButton size="small" onClick={() => navigate(`/members/details/${row.id}`)}>
+                      <Icon>edit</Icon>
+                    </IconButton>
+                  </Box>
+                </TableCell>
                 <TableCell>{row.fullName}</TableCell>
                 <TableCell>{row.email}</TableCell>
               </TableRow>
