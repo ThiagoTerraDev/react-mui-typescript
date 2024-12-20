@@ -95,6 +95,7 @@ export const MembersList: React.FC = () => {
             setPendingPageReset(true);
             setSearchParams({ search: newSearchText, page: page.toString() }, { replace: true });
           }}
+          onClickNewButton={() => navigate("/members/details/new")}
         />
       }>
       
