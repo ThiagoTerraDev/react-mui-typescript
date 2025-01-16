@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useDrawerContext } from "../shared/contexts";
 import { useEffect } from "react";
-import { CitiesList, Dashboard, MembersDetails, MembersList } from "../pages";
+import { Dashboard, MembersDetails, MembersList, CitiesList, CitiesDetails } from "../pages";
 
 export const AppRoutes = () => {
   // const { toggleTheme } = useAppThemeContext();
@@ -32,6 +32,8 @@ export const AppRoutes = () => {
       <Route path="/home" element={<Dashboard />} />
 
       <Route path="/cities" element={<CitiesList />} />
+      <Route path="/cities/details/:id" element={<CitiesDetails />} />
+
       <Route path="/members" element={<MembersList />} />
       <Route path="/members/details/:id" element={<MembersDetails />} />
 
