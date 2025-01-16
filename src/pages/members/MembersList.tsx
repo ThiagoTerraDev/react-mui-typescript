@@ -103,7 +103,7 @@ export const MembersList: React.FC = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell width={200}>
                 Actions
               </TableCell>
               <TableCell>
