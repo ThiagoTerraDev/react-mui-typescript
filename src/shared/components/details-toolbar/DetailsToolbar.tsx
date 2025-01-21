@@ -17,19 +17,19 @@ interface IDetailsToolbarProps {
   showSaveButton?: boolean;
   showDeleteButton?: boolean;
   showBackButton?: boolean;
-  showSaveAndBackButton?: boolean;
+  showSaveAndCloseButton?: boolean;
 
   newButtonBusy?: boolean;
   saveButtonBusy?: boolean;
   deleteButtonBusy?: boolean;
   backButtonBusy?: boolean;
-  saveAndBackButtonBusy?: boolean;
+  saveAndCloseButtonBusy?: boolean;
 
   onClickNewButton?: () => void;
   onClickSaveButton?: () => void;
   onClickDeleteButton?: () => void;
   onClickBackButton?: () => void;
-  onClickSaveAndBackButton?: () => void;
+  onClickSaveAndCloseButton?: () => void;
 }
 
 export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({ 
@@ -39,19 +39,19 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
   showSaveButton = true,
   showDeleteButton = true,
   showBackButton = true,
-  showSaveAndBackButton = false,
+  showSaveAndCloseButton = false,
 
   newButtonBusy = false,
   saveButtonBusy = false,
   deleteButtonBusy = false,
   backButtonBusy = false,
-  saveAndBackButtonBusy = false,
+  saveAndCloseButtonBusy = false,
 
   onClickNewButton,
   onClickSaveButton,
   onClickDeleteButton,
   onClickBackButton,
-  onClickSaveAndBackButton
+  onClickSaveAndCloseButton
 }) => {
 
   const theme = useTheme();
@@ -92,13 +92,13 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
         <Skeleton width={100} height={60}/>
       )}
 
-      {(showSaveAndBackButton && !saveAndBackButtonBusy && !mdDown) && (
+      {(showSaveAndCloseButton && !saveAndCloseButtonBusy && !mdDown) && (
         <Button 
           variant="outlined" 
           color="primary" 
           disableElevation
           startIcon={<Icon>save</Icon>}
-          onClick={onClickSaveAndBackButton}
+          onClick={onClickSaveAndCloseButton}
         >
           <Typography 
             variant="button"
@@ -106,12 +106,12 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
             textOverflow="ellipsis"
             overflow="hidden"
           >
-            Save and back
+            Save and close
           </Typography>
         </Button>
       )}
 
-      {(saveAndBackButtonBusy && !mdDown) && (
+      {(saveAndCloseButtonBusy && !mdDown) && (
         <Skeleton width={170} height={60}/>
       )}
 
@@ -163,7 +163,7 @@ export const DetailsToolbar: React.FC<IDetailsToolbarProps> = ({
 
       {(showBackButton && (
         showSaveButton || 
-        showSaveAndBackButton || 
+        showSaveAndCloseButton || 
         showDeleteButton || 
         showNewButton )) && (
         <Divider variant="middle" orientation="vertical" />

@@ -108,14 +108,14 @@ export const CitiesDetails: React.FC = () => {
       title={id === "new" ? "New city" : cityName}
       toolbar={
         <DetailsToolbar 
-          showSaveAndBackButton
+          showSaveAndCloseButton
           showDeleteButton={id !== "new"}
           showNewButton={id !== "new"}
           onClickBackButton={() => navigate("/cities")}
           onClickNewButton={() => navigate("/cities/details/new")}
           onClickSaveButton={handleSubmit((data) => handleSave(data, false))}
           onClickDeleteButton={() => handleDelete(Number(id))}
-          onClickSaveAndBackButton={handleSubmit((data) => handleSave(data, true))}
+          onClickSaveAndCloseButton={handleSubmit((data) => handleSave(data, true))}
         />
       }
     >

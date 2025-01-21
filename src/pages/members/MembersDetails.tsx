@@ -119,14 +119,14 @@ export const MembersDetails: React.FC = () => {
       title={id === "new" ? "New Member" : memberFullName}
       toolbar={
         <DetailsToolbar 
-          showSaveAndBackButton
+          showSaveAndCloseButton
           showDeleteButton={id !== "new"}
           showNewButton={id !== "new"}
           onClickBackButton={() => navigate("/members")}
           onClickNewButton={() => navigate("/members/details/new")}
           onClickSaveButton={handleSubmit((data) => handleSave(data, false))}
           onClickDeleteButton={() => handleDelete(Number(id))}
-          onClickSaveAndBackButton={handleSubmit((data) => handleSave(data, true))}
+          onClickSaveAndCloseButton={handleSubmit((data) => handleSave(data, true))}
         />
       }
     >

@@ -8,7 +8,7 @@ export const Dashboard = () => {
       title="Home" 
       toolbar={(
         <DetailsToolbar 
-          showSaveAndBackButton
+          showSaveAndCloseButton
         />
       )}
     >
