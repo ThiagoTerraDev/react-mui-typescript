@@ -7,12 +7,13 @@ import { Box, Grid2, LinearProgress, Paper, TextField, Typography } from "@mui/m
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CityAutoComplete } from "./components/CityAutoComplete";
 
 
 const memberValidationSchema = z.object({
   fullName: z.string().nonempty("Fullname is required"),
   email: z.string().email("Please enter a valid email"),
-  cityId: z.preprocess((value) => Number(value), z.number().min(1, "CityId must be greater than 0")),
+  cityId: z.number().min(1, "Please select a city"),
 });
 
 type MemberValidationSchema = z.infer<typeof memberValidationSchema>;
@@ -23,8 +24,9 @@ export const MembersDetails: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [memberFullName, setMemberFullName] = useState("");
+  const [registeredMemberCityId, setRegisteredMemberCityId] = useState<number | undefined>(undefined);
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<MemberValidationSchema>({
+  const { setValue, register, handleSubmit, reset, formState: { errors } } = useForm<MemberValidationSchema>({
     resolver: zodResolver(memberValidationSchema),
     defaultValues: {
       fullName: "",
@@ -46,6 +48,7 @@ export const MembersDetails: React.FC = () => {
           } else {
             setMemberFullName(result.fullName);
             reset(result);
+            setRegisteredMemberCityId(result.cityId);
           }
         });
     } else {
@@ -54,6 +57,7 @@ export const MembersDetails: React.FC = () => {
         email: "",
         cityId: 0,
       });
+      setRegisteredMemberCityId(undefined);
     }
   }, [id]);
 
@@ -89,6 +93,7 @@ export const MembersDetails: React.FC = () => {
               navigate("/members");
             } else {
               setMemberFullName(data.fullName);
+              setRegisteredMemberCityId(data.cityId);
             }
           }
         });
@@ -164,6 +169,7 @@ export const MembersDetails: React.FC = () => {
                   disabled={isLoading}
                   error={!!errors.fullName}
                   helperText={errors.fullName?.message}
+                  placeholder="Enter your fullname"
                 />
               </Grid2>
             </Grid2>
@@ -183,23 +189,16 @@ export const MembersDetails: React.FC = () => {
                   disabled={isLoading}
                   error={!!errors.email}
                   helperText={errors.email?.message}
+                  placeholder="Enter your email"
                 />
               </Grid2>
             </Grid2>
             <Grid2 container direction="row">
               <Grid2 size={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
-                <TextField
-                  fullWidth 
-                  slotProps={{
-                    inputLabel: { shrink: true },
-                    formHelperText: {
-                      sx: {
-                        maxHeight: "20px",
-                      },
-                    }}}
-                  label="CityId" 
-                  {...register("cityId")}
-                  disabled={isLoading}
+                <CityAutoComplete 
+                  isExternalLoading={isLoading} 
+                  onCitySelected={cityId => setValue("cityId", cityId)}
+                  registeredMemberCityId={registeredMemberCityId}
                   error={!!errors.cityId}
                   helperText={errors.cityId?.message}
                 />
