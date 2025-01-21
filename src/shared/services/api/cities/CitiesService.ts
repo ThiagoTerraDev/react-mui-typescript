@@ -1,4 +1,3 @@
-import { Environment } from "../../../environment";
 import { Api } from "../axios-config";
 
 
@@ -19,13 +18,13 @@ type TCitiesWithTotalCount = {
 
 const getAll = async (page = 1, filter = ""): Promise<TCitiesWithTotalCount | Error> => {
   try {
-    const relativeUrl = `/cities?_page=${page}&_limit=${Environment.MAXIMUM_ROWS}&name_like=${filter}`;
+    const relativeUrl = `/cities?_page=${page}&name_like=${filter}`;
     const { data, headers } = await Api.get(relativeUrl);
 
     if (data) {
       return {
         data,
-        totalCount: Number(headers["x-total-count"] || Environment.MAXIMUM_ROWS),
+        totalCount: Number(headers["x-total-count"]),
       };
     }
 
