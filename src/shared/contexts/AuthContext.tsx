@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useEffect, useMemo, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { AuthService } from "../services/api/auth/AuthService";
 
 
@@ -9,6 +9,10 @@ interface IAuthContextData {
 }
 
 const AuthContext = createContext({} as IAuthContextData);
+
+export const useAuthContext = () => {
+  return useContext(AuthContext);
+};
 
 const LOCAL_STORAGE_KEY_ACCESS_TOKEN = "APP_ACCESS_TOKEN";
 

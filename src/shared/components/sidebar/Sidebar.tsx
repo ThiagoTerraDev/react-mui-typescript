@@ -11,7 +11,7 @@ import {
   useMediaQuery, 
   useTheme 
 } from "@mui/material";
-import { useAppThemeContext, useDrawerContext } from "../../contexts";
+import { useAppThemeContext, useAuthContext, useDrawerContext } from "../../contexts";
 import { useMatch, useNavigate, useResolvedPath } from "react-router-dom";
 
 
@@ -52,6 +52,7 @@ export const Sidebar: React.FC<ISidebarProps> = ({ children }) => {
   const smDown = useMediaQuery(theme.breakpoints.down("sm"));
   const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
   const { toggleTheme } = useAppThemeContext();
+  const { logout } = useAuthContext();
 
   return (
     <>
@@ -79,12 +80,18 @@ export const Sidebar: React.FC<ISidebarProps> = ({ children }) => {
               ))}
             </List>
           </Box>
-          <Box>
+          <Box pb={2}>
             <ListItemButton onClick={toggleTheme}>
               <ListItemIcon>
                 <Icon>dark_mode</Icon>
               </ListItemIcon>
               <ListItemText primary="Change theme" />
+            </ListItemButton>
+            <ListItemButton onClick={logout}>
+              <ListItemIcon>
+                <Icon>logout</Icon>
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
             </ListItemButton>
           </Box>
         </Box>
