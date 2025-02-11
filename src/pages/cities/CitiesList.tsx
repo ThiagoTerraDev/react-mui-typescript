@@ -45,7 +45,7 @@ export const CitiesList: React.FC = () => {
       setIsLoading(true);
   
       try {
-        const result = await CitiesService.getAll(page, debouncedSearch || "");
+        const result = await CitiesService.getAll(page, debouncedSearch || "", Environment.MAXIMUM_ROWS);
   
         setIsLoading(false);
   
