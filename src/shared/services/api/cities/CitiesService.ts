@@ -16,9 +16,9 @@ type TCitiesWithTotalCount = {
   totalCount: number;
 }
 
-const getAll = async (page = 1, filter = ""): Promise<TCitiesWithTotalCount | Error> => {
+const getAll = async (page = 1, filter = "", limit?: number): Promise<TCitiesWithTotalCount | Error> => {
   try {
-    const relativeUrl = `/cities?_page=${page}&name_like=${filter}`;
+    const relativeUrl = `/cities?_page=${page}&_limit=${limit ? limit : ""}&name_like=${filter}`;
     const { data, headers } = await Api.get(relativeUrl);
 
     if (data) {
