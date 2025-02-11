@@ -3,17 +3,17 @@ import { BasePageLayout } from "../../shared/layouts";
 import { DetailsToolbar } from "../../shared/components";
 import { useEffect, useState } from "react";
 import { CitiesService } from "../../shared/services/api/cities/CitiesService";
-import { Box, Grid2, LinearProgress, Paper, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CustomForm } from "../../shared/forms";
 
 
 const cityValidationSchema = z.object({
   name: z.string().nonempty("City name is required"),
 });
 
-type cityValidationSchema = z.infer<typeof cityValidationSchema>;
+type CityValidationSchema = z.infer<typeof cityValidationSchema>;
 
 export const CitiesDetails: React.FC = () => {
   const { id = "new" } = useParams<"id">();
@@ -22,12 +22,20 @@ export const CitiesDetails: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [cityName, setCityName] = useState("");
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<cityValidationSchema>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<CityValidationSchema>({
     resolver: zodResolver(cityValidationSchema),
     defaultValues: {
       name: "",
     }
   });
+
+  const fields = [
+    {
+      name: "name",
+      label: "City name",
+      type: "text",
+    }
+  ];
 
   useEffect(() => {
     if (id !== "new") {
@@ -51,7 +59,7 @@ export const CitiesDetails: React.FC = () => {
     }
   }, [id]);
 
-  const handleSave = (data: cityValidationSchema, goBack: boolean) => {
+  const handleSave = (data: CityValidationSchema, goBack: boolean) => {
     setIsLoading(true);
 
     if (id === "new") {
@@ -120,50 +128,13 @@ export const CitiesDetails: React.FC = () => {
       }
     >
 
-      <form>
-        <Box 
-          margin={1} 
-          display="flex" 
-          flexDirection="column" 
-          component={Paper}
-          variant="outlined"
-        >
-          <Grid2 container direction="column" padding={2} spacing={2}>
-            
-            {isLoading && (
-              <Grid2>
-                <LinearProgress variant="indeterminate"/>
-              </Grid2>
-            )}
-            
-            <Grid2 mb={1}>
-              <Typography variant="h6">
-                City Details
-              </Typography>
-            </Grid2>
-
-            <Grid2 container direction="row">
-              <Grid2 size={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
-                <TextField
-                  fullWidth 
-                  slotProps={{
-                    inputLabel: { shrink: true },
-                    formHelperText: {
-                      sx: {
-                        maxHeight: "20px",
-                      },
-                    }}}
-                  label="name" 
-                  {...register("name")} 
-                  disabled={isLoading}
-                  error={!!errors.name}
-                  helperText={errors.name?.message}
-                />
-              </Grid2>
-            </Grid2>
-          </Grid2>
-        </Box>
-      </form>
+      <CustomForm<CityValidationSchema>
+        isLoading={isLoading}
+        pageTitle="City details"
+        fields={fields}
+        register={register}
+        errors={errors}
+      />
     </BasePageLayout>
   );
 };
