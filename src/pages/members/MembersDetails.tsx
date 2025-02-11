@@ -3,11 +3,11 @@ import { BasePageLayout } from "../../shared/layouts";
 import { DetailsToolbar } from "../../shared/components";
 import { useEffect, useState } from "react";
 import { MembersService } from "../../shared/services/api/members/MembersService";
-import { Box, Grid2, LinearProgress, Paper, TextField, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CityAutoComplete } from "./components/CityAutoComplete";
+import { CustomForm } from "../../shared/forms";
 
 
 const memberValidationSchema = z.object({
@@ -34,6 +34,24 @@ export const MembersDetails: React.FC = () => {
       cityId: undefined,
     }
   });
+
+  const fields = [
+    {
+      name: "fullName",
+      label: "Fullname",
+      type: "text",
+    },
+    {
+      name: "email",
+      label: "Email",
+      type: "email",
+    },
+    {
+      name: "cityId",
+      label: "City",
+      type: "custom",
+    }
+  ];
 
   useEffect(() => {
     if (id !== "new") {
@@ -130,83 +148,24 @@ export const MembersDetails: React.FC = () => {
         />
       }
     >
-
-      <form>
-        <Box 
-          margin={1} 
-          display="flex" 
-          flexDirection="column" 
-          component={Paper}
-          variant="outlined"
-        >
-          <Grid2 container direction="column" padding={2} spacing={2}>
-            
-            {isLoading && (
-              <Grid2>
-                <LinearProgress variant="indeterminate"/>
-              </Grid2>
-            )}
-            
-            <Grid2 mb={1}>
-              <Typography variant="h6">
-                Member Details
-              </Typography>
-            </Grid2>
-
-            <Grid2 container direction="row">
-              <Grid2 size={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
-                <TextField
-                  fullWidth 
-                  slotProps={{
-                    inputLabel: { shrink: true },
-                    formHelperText: {
-                      sx: {
-                        maxHeight: "20px",
-                      },
-                    }}}
-                  label="Fullname" 
-                  {...register("fullName")} 
-                  disabled={isLoading}
-                  error={!!errors.fullName}
-                  helperText={errors.fullName?.message}
-                  placeholder="Enter your fullname"
-                />
-              </Grid2>
-            </Grid2>
-            <Grid2 container direction="row">
-              <Grid2 size={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
-                <TextField
-                  fullWidth  
-                  slotProps={{
-                    inputLabel: { shrink: true },
-                    formHelperText: {
-                      sx: {
-                        maxHeight: "20px",
-                      },
-                    }}}
-                  label="Email" 
-                  {...register("email")}
-                  disabled={isLoading}
-                  error={!!errors.email}
-                  helperText={errors.email?.message}
-                  placeholder="Enter your email"
-                />
-              </Grid2>
-            </Grid2>
-            <Grid2 container direction="row">
-              <Grid2 size={{ xs: 12, md: 6, lg: 4, xl: 3 }}>
-                <CityAutoComplete 
-                  isExternalLoading={isLoading} 
-                  onCitySelected={cityId => setValue("cityId", cityId)}
-                  registeredMemberCityId={registeredMemberCityId}
-                  error={!!errors.cityId}
-                  helperText={errors.cityId?.message}
-                />
-              </Grid2>
-            </Grid2>
-          </Grid2>
-        </Box>
-      </form>
+      <CustomForm<MemberValidationSchema>
+        isLoading={isLoading}
+        pageTitle="Member details"
+        fields={fields}
+        register={register}
+        errors={errors}
+        renderCustomField={(field) => 
+          field.name === "cityId" ? (
+            <CityAutoComplete 
+              isExternalLoading={isLoading} 
+              onCitySelected={cityId => setValue("cityId", cityId)}
+              registeredMemberCityId={registeredMemberCityId}
+              error={!!errors.cityId}
+              helperText={errors.cityId?.message}
+            />
+          ) : null 
+        }
+      />
     </BasePageLayout>
   );
 };
