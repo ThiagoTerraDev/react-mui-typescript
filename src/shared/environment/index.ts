@@ -4,7 +4,7 @@ export const Environment = {
   /**
    * Base URL for the API
    */
-  BASE_URL: "http://localhost:3333",
+  BASE_URL: "http://localhost:5050",
 
   /**
    * Default number of rows per page

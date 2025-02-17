@@ -18,7 +18,7 @@ type TCitiesWithTotalCount = {
 
 const getAll = async (page = 1, filter = "", limit?: number): Promise<TCitiesWithTotalCount | Error> => {
   try {
-    const relativeUrl = `/cities?_page=${page}&_limit=${limit ? limit : ""}&name_like=${filter}`;
+    const relativeUrl = `/cities?page=${page}${limit ? `&limit=${limit}` : ""}&filter=${filter}`;
     const { data, headers } = await Api.get(relativeUrl);
 
     if (data) {
@@ -52,10 +52,10 @@ const getById = async (id: number): Promise<ICityDetail | Error> => {
 
 const create = async (CityData: Omit<ICityDetail, "id">): Promise<number | Error> => {
   try {
-    const { data } = await Api.post<ICityDetail>("/cities", CityData);
+    const { data } = await Api.post<number>("/cities", CityData);
 
     if (data) {
-      return data.id;
+      return data;
     }
 
     return new Error("Error creating record");

@@ -23,7 +23,7 @@ type TMembersWithTotalCount = {
 
 const getAll = async (page = 1, filter = ""): Promise<TMembersWithTotalCount | Error> => {
   try {
-    const relativeUrl = `/members?_page=${page}&_limit=${Environment.MAXIMUM_ROWS}&fullName_like=${filter}`;
+    const relativeUrl = `/members?page=${page}&limit=${Environment.MAXIMUM_ROWS}&filter=${filter}`;
     const { data, headers } = await Api.get(relativeUrl);
 
     if (data) {
@@ -57,10 +57,10 @@ const getById = async (id: number): Promise<IMemberDetail | Error> => {
 
 const create = async (memberData: Omit<IMemberDetail, "id">): Promise<number | Error> => {
   try {
-    const { data } = await Api.post<IMemberDetail>("/members", memberData);
+    const { data } = await Api.post<number>("/members", memberData);
 
     if (data) {
-      return data.id;
+      return data;
     }
 
     return new Error("Error creating record");
