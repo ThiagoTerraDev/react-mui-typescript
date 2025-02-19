@@ -1,4 +1,4 @@
-# Membership Manager Front End - React, Material UI, TypeScript
+# Membership Manager Front End
 
 This project serves as an interface for users to interact with the Membership Manager application, developed using the technologies highlighted below. To build this application, various libraries and tools were utilized. These include React Router DOM for navigation, light and dark theme options, Context API for state management, responsive layout, toolbars, sidebar, mock data with json-server, axios configuration with interceptors, data listing, form validation with zod and React Hook Form, services for handling Cities and Members, authentication, and more. The goal was to create an intuitive user experience while ensuring robust functionality.
 
